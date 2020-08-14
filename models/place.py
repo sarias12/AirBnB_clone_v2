@@ -2,6 +2,8 @@
 """ Place Module for HBNB project """
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
 from models.base_model import BaseModel, Base
+from sqlalchemy.orm import relationship
+from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -53,6 +55,15 @@ class Place(BaseModel, Base):
         Float,
         nullable=True
     )
+
+    # for dbstorage:
+    reviews = relationship('Review', cascade="all, delete", backref="place")
+
+    # for filestorage:
+    @property
+    def reviews(self):
+        """ Getter method for reviews attribute"""
+        return type(self).reviews
     # city_id = ""
     # user_id = ""
     # name = ""
