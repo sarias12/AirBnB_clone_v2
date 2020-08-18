@@ -2,7 +2,7 @@
 """Module that generates a .tgz archive """
 from fabric.api import local, put, run, env
 from datetime import datetime
-import os.path import exists
+from os.path import exists
 
 env.hosts = ['35.237.150.134', '35.185.50.255']
 
@@ -13,7 +13,7 @@ def do_pack():
     format_date = format_date.strftime('%Y%m%d%H%M%S')
     filename = 'versions/web_static_{}.tgz'.format(format_date)
     local('mkdir -p versions', capture=True)
-    tgz = local('tar -cvzf %s web_static' % filename)pep
+    tgz = local('tar -cvzf %s web_static' % filename)
     if tgz.succeeded:
         return filename
     else:
