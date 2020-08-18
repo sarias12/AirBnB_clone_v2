@@ -21,18 +21,21 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """distributes an archive to your web servers"""
+    """deploy and uncompress file to server."""
     if not exists(archive_path):
         return False
+
     put(archive_path, "/tmp/")
-    tx1 = archive_path.split('/')[-1]
-    tx2 = tx1.split('.')[0]
-    path = '/data/web_static/releases/' + tx2
-    run('mkdir -p ' + path)
-    st = 'tar -xzf /tmp/{} -C {}'.format(tx1, path)
-    run(st)
-    run('rm /tmp/' + tx1)
-    run('mv {}web_static/* {}'.format(path, path))
-    run('rm -rf {}web_static/*'.format(path))
-    run('rm -rf /data/web_static/current')
-    run('ln -s {} /data/web_static/current'.format(path))
+    namefile = archive_path.split('/')[-1]
+    name = namefile.split('.')[0]  # name withouth extension.
+    pathfile = "/data/web_static/releases/" + name
+    run("mkdir -p " + pathfile)
+    run("tar -xzf /tmp/" + namefile + " -C " + pathfile)
+    run("rm /tmp/" + namefile)
+
+    run("mv " + pathfile + "/web_static/* " + pathfile)
+    run("rm -rf /data/web_static/current")
+    run("rm -rf " + pathfile + "/web_static/")
+    run("ln -s {} /data/web_static/current".format(pathfile))
+
+    return True
