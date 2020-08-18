@@ -34,8 +34,7 @@ def do_deploy(archive_path):
     run("rm /tmp/" + namefile)
 
     run("mv " + pathfile + "/web_static/* " + pathfile)
-    run("rm -rf /data/web_static/current")
     run("rm -rf " + pathfile + "/web_static/")
+    run("rm -rf /data/web_static/current")
     run("ln -s {} /data/web_static/current".format(pathfile))
-
     return True
