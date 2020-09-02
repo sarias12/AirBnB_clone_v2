@@ -31,7 +31,7 @@ class DBStorage():
             pool_pre_ping=True
             )
 
-        if tmp is 'test':
+        if tmp == 'test':
             Base.metadata.drop_all(self.__engine)
             # If fails remember to review this part
 
