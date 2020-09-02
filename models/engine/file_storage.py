@@ -48,7 +48,7 @@ class FileStorage:
                     'BaseModel': BaseModel, 'User': User, 'Place': Place,
                     'State': State, 'City': City, 'Amenity': Amenity,
                     'Review': Review
-                  }
+                }
         try:
             temp = {}
             with open(FileStorage.__file_path, 'r') as f:
@@ -65,3 +65,7 @@ class FileStorage:
             if obj_remove in FileStorage.__objects:
                 del FileStorage.__objects[obj_remove]
         self.save()
+
+    def close(self):
+        """call reload() method for deserializing the JSON file to objects"""
+        self.reload()
