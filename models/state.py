@@ -4,21 +4,35 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 from models.city import City
+import models
+from os import getenv
+
+
+type_engine = getenv('HBNB_TYPE_STORAGE')
 
 
 class State(BaseModel, Base):
     """ The city class, contains state ID and name """
-    __tablename__ = 'states'
-    name = Column(
-        'name',
-        String(128),
-        nullable=False
-    )
     # for dbstorage:
-    cities = relationship('City', cascade="all, delete", backref="state")
-
+    __tablename__ = 'states'
+    if type_engine == 'db':
+        name = Column(
+            'name',
+            String(128),
+            nullable=False
+        )
+        cities = relationship('City', cascade="all, delete", backref="state")
     # for filestorage:
-    @property
-    def cities(self):
-        """ Getter method for cities attribute"""
-        return type(self).cities
+    else:
+        name = ''
+
+        @property
+        def cities(self):
+            """ Getter method for  return all cities of a state"""
+            cities = []
+
+            for key, city in models.storage.all(City).items():
+                if city.state_id == self.id:
+                    cities.append(city)
+
+            return cities
