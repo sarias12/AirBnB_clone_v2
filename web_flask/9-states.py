@@ -9,20 +9,24 @@ from models.state import State
 app = Flask(__name__)
 
 
-@app.route('/states', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
-def states(id):
+def states_id(id='noid'):
     list = []
     states = storage.all(State)
-    if id:
+    if id != 'noid':
         for state in states.values():
             if state.id == id:
                 state_display = state
-        return render_template('9-states.html', state=state_display)
-    else:
-        for key, value in states.items():
-            list.append(value)
-        return render_template('9-states.html', list=list)
+                return render_template('9-states.html', state=state_display)
+        return render_template('9-states.html')
+
+@app.route('/states', strict_slashes=False)
+def states():
+    list = []
+    states = storage.all(State)
+    for key, value in states.items():
+        list.append(value)
+    return render_template('9-states.html', list=list)
 
 
 @app.teardown_appcontext
