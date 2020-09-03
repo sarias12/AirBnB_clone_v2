@@ -20,6 +20,7 @@ def states_id(id='noid'):
                 return render_template('9-states.html', state=state_display)
         return render_template('9-states.html')
 
+
 @app.route('/states', strict_slashes=False)
 def states():
     list = []
