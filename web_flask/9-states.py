@@ -25,10 +25,10 @@ def states_id(id='noid'):
 def states():
     list = []
     states = storage.all(State)
-    if len(states) == 0:
-        return render_template('9-states.html')
     for key, value in states.items():
         list.append(value)
+    if len(list) == 0:
+        return render_template('9-states.html')
     return render_template('9-states.html', list=list)
 
 
