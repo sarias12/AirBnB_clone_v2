@@ -27,6 +27,8 @@ def states():
     states = storage.all(State)
     for key, value in states.items():
         list.append(value)
+    if len(list) == 0:
+        list = 'nostate'
     return render_template('9-states.html', list=list)
 
 
