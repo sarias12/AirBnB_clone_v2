@@ -9,27 +9,14 @@ from models.state import State
 app = Flask(__name__)
 
 
-@app.route('/states/<id>', strict_slashes=False)
-def states_id(id='noid'):
-    list = []
-    states = storage.all(State)
-    if id != 'noid':
-        for state in states.values():
-            if state.id == id:
-                state_display = state
-                return render_template('9-states.html', state=state_display)
-        return render_template('9-states.html')
-
-
 @app.route('/states', strict_slashes=False)
-def states():
-    list = []
+@app.route('/states/<state_id>', strict_slashes=False)
+def states(state_id=None):
+    """display the states and cities listed in alphabetical order"""
     states = storage.all(State)
-    for key, value in states.items():
-        list.append(value)
-    if len(list) == 0:
-        return render_template('9-states.html')
-    return render_template('9-states.html', list=list)
+    if state_id is not None:
+        state_id = 'State.' + state_id
+    return render_template('9-states.html', states=states, state_id=state_id)
 
 
 @app.teardown_appcontext
